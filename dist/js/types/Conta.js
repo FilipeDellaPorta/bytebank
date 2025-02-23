@@ -1,4 +1,4 @@
-import { Armazenador } from "./Armazenador.js";
+import { Armazenador } from "../utils/Armazenador.js";
 import { TipoTransacao } from "./TipoTransacao.js";
 export class Conta {
     nome;

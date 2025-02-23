@@ -1,4 +1,4 @@
-import { Armazenador } from "./Armazenador.js";
+import { Armazenador } from "../utils/Armazenador.js";
 import { GrupoTransacao } from "./GrupoTransacao.js";
 import { TipoTransacao } from "./TipoTransacao.js";
 import { Transacao } from "./Transacao.js";
