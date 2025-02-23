@@ -1,4 +1,4 @@
-import Conta from "../types/Conta-antiga.js";
+import Conta from "../types/Conta.js";
 import { TipoTransacao } from "../types/TipoTransacao.js";
 import { Transacao } from "../types/Transacao.js";
 import ExtratoComponent from "./extrato-component.js";
