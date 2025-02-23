@@ -11,6 +11,9 @@ export class Conta {
     constructor(nome) {
         this.nome = nome;
     }
+    getTitular() {
+        return this.nome;
+    }
     getSaldo() {
         return this.saldo;
     }
@@ -69,5 +72,5 @@ export class Conta {
         localStorage.setItem("transacoes", JSON.stringify(this.transacoes));
     }
 }
-const conta = new Conta("Filipe Della Porta Barros");
+const conta = new Conta("Filipe Della Porta");
 export default conta;

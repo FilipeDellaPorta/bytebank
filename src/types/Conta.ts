@@ -3,9 +3,9 @@ import { TipoTransacao } from "./TipoTransacao.js";
 import { Transacao } from "./Transacao.js";
 
 export class Conta {
-  nome: string;
-  saldo: number = JSON.parse(localStorage.getItem("saldo")) || 0;
-  transacoes: Transacao[] =
+  protected nome: string;
+  protected saldo: number = JSON.parse(localStorage.getItem("saldo")) || 0;
+  private transacoes: Transacao[] =
     JSON.parse(
       localStorage.getItem("transacoes"),
       (key: string, value: any) => {
@@ -18,6 +18,10 @@ export class Conta {
 
   constructor(nome: string) {
     this.nome = nome;
+  }
+
+  public getTitular(): string {
+    return this.nome;
   }
 
   getSaldo(): number {
@@ -54,7 +58,7 @@ export class Conta {
     return gruposTransacoes;
   }
 
-  debitar(valor: number): void {
+  private debitar(valor: number): void {
     if (valor <= 0) {
       throw new Error("O valor a ser debitado deve ser maior que zero!");
     }
@@ -65,7 +69,7 @@ export class Conta {
     localStorage.setItem("saldo", this.saldo.toString());
   }
 
-  depositar(valor: number): void {
+  private depositar(valor: number): void {
     if (valor <= 0) {
       throw new Error("O valor a ser depositado deve ser maior que zero!");
     }
@@ -92,6 +96,6 @@ export class Conta {
   }
 }
 
-const conta = new Conta("Filipe Della Porta Barros");
+const conta = new Conta("Filipe Della Porta");
 
 export default conta;
