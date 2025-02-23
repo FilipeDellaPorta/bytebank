@@ -1,20 +1,18 @@
+import { Armazenador } from "./Armazenador.js";
 import { GrupoTransacao } from "./GrupoTransacao.js";
 import { TipoTransacao } from "./TipoTransacao.js";
 import { Transacao } from "./Transacao.js";
 
 export class Conta {
   protected nome: string;
-  protected saldo: number = JSON.parse(localStorage.getItem("saldo")) || 0;
+  protected saldo: number = Armazenador.obter("saldo") || 0;
   private transacoes: Transacao[] =
-    JSON.parse(
-      localStorage.getItem("transacoes"),
-      (key: string, value: any) => {
-        if (key === "data") {
-          return new Date(value);
-        }
-        return value;
+    Armazenador.obter("transacoes", (key: string, value: any) => {
+      if (key === "data") {
+        return new Date(value);
       }
-    ) || [];
+      return value;
+    }) || [];
 
   constructor(nome: string) {
     this.nome = nome;
@@ -66,7 +64,7 @@ export class Conta {
       throw new Error("Saldo insuficiente!");
     }
     this.saldo -= valor;
-    localStorage.setItem("saldo", this.saldo.toString());
+    Armazenador.salvar("saldo", this.saldo.toString());
   }
 
   private depositar(valor: number): void {
@@ -74,7 +72,7 @@ export class Conta {
       throw new Error("O valor a ser depositado deve ser maior que zero!");
     }
     this.saldo += valor;
-    localStorage.setItem("saldo", this.saldo.toString());
+    Armazenador.salvar("saldo", this.saldo.toString());
   }
 
   registrarTransacao(novaTransacao: Transacao): void {
@@ -92,7 +90,7 @@ export class Conta {
 
     this.transacoes.push(novaTransacao);
     console.log(this.getGruposTransacoes());
-    localStorage.setItem("transacoes", JSON.stringify(this.transacoes));
+    Armazenador.salvar("transacoes", JSON.stringify(this.transacoes));
   }
 }
 
