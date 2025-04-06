@@ -2,6 +2,16 @@ import { EnumTransacao } from '../enums/EnumTransacao.js';
 import { TypeTransacao } from './TypeTransacao.js';
 
 let saldo: number = 20000;
+const transacoes: TypeTransacao[] =
+  JSON.parse(
+    localStorage.getItem('transacoes'),
+    (key: string, value: string) => {
+      if (key === 'data') {
+        return new Date(value);
+      }
+      return value;
+    }
+  ) || [];
 
 function ehMaiorQueZero(valor: number): void {
   if (valor <= 0) {
@@ -46,7 +56,8 @@ const Conta = {
     } else {
       throw new Error('Transação inválida.');
     }
-    console.log(novaTransacao);
+    transacoes.push(novaTransacao);
+    localStorage.setItem('transacoes', JSON.stringify(novaTransacao));
   },
 };
 

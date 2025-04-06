@@ -1,5 +1,11 @@
 import { EnumTransacao } from '../enums/EnumTransacao.js';
 let saldo = 20000;
+const transacoes = JSON.parse(localStorage.getItem('transacoes'), (key, value) => {
+    if (key === 'data') {
+        return new Date(value);
+    }
+    return value;
+}) || [];
 function ehMaiorQueZero(valor) {
     if (valor <= 0) {
         throw new Error('Valor precisa ser maior que zero.');
@@ -37,7 +43,8 @@ const Conta = {
         else {
             throw new Error('Transação inválida.');
         }
-        console.log(novaTransacao);
+        transacoes.push(novaTransacao);
+        localStorage.setItem('transacoes', JSON.stringify(novaTransacao));
     },
 };
 export default Conta;
