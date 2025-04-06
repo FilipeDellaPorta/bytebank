@@ -1,4 +1,4 @@
-var EnumTransacao;
+export var EnumTransacao;
 (function (EnumTransacao) {
     EnumTransacao["DEPOSITO"] = "Dep\u00F3sito";
     EnumTransacao["TRANSFERENCIA"] = "Transfer\u00EAncia";

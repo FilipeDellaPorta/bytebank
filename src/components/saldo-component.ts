@@ -1,3 +1,5 @@
+import { formatarData, formatarMoeda } from '../utils/formatters.js';
+
 let saldo: number = 20000;
 
 const elementoSaldo = document.querySelector(

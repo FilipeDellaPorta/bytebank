@@ -1,11 +1,13 @@
-function formatarMoeda(valor: number): string {
+import { EnumData } from '../enums/EnumData.js';
+
+export function formatarMoeda(valor: number): string {
   return valor.toLocaleString('pt-pt', {
     currency: 'EUR',
     style: 'currency',
   });
 }
 
-function formatarData(
+export function formatarData(
   data: Date,
   formatoData: EnumData = EnumData.ACESSO
 ): string {
