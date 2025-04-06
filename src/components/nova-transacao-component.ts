@@ -1,7 +1,6 @@
 import { EnumTransacao } from '../enums/EnumTransacao.js';
 import Conta from '../types/Conta.js';
 import { TypeTransacao } from '../types/TypeTransacao.js';
-import DataComponent from './data-component.js';
 import SaldoComponent from './saldo-component.js';
 
 const elementoFormulario = document.querySelector(
