@@ -26,7 +26,10 @@ elementoFormulario.addEventListener('submit', (event) => {
     else {
         alert('Valor da transação precisa ser maior que zero.');
     }
-    elementoSaldo.textContent = saldo.toString();
+    elementoSaldo.textContent = saldo.toLocaleString('pt-pt', {
+        currency: 'EUR',
+        style: 'currency',
+    });
     const novaTransacao = {
         tipoTransacao: tipoTransacao,
         valor: valor,
