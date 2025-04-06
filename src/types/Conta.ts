@@ -3,6 +3,29 @@ import { TypeTransacao } from './TypeTransacao.js';
 
 let saldo: number = 20000;
 
+function ehMaiorQueZero(valor: number): void {
+  if (valor <= 0) {
+    throw new Error('Valor precisa ser maior que zero.');
+  }
+}
+
+function ehMenorQueSaldo(valor: number): void {
+  if (valor > saldo) {
+    throw new Error('Saldo insuficiente.');
+  }
+}
+
+function debitar(valor: number): void {
+  ehMaiorQueZero(valor);
+  ehMenorQueSaldo(valor);
+  saldo -= valor;
+}
+
+function depositar(valor: number): void {
+  ehMaiorQueZero(valor);
+  saldo += valor;
+}
+
 const Conta = {
   getSaldo() {
     return saldo;
@@ -13,19 +36,15 @@ const Conta = {
   },
 
   registrarTransacao(novaTransacao: TypeTransacao): void {
-    if (novaTransacao.valor > 0) {
-      if (novaTransacao.tipoTransacao === EnumTransacao.DEPOSITO) {
-        saldo += novaTransacao.valor;
-      } else if (
-        novaTransacao.tipoTransacao === EnumTransacao.TRANSFERENCIA ||
-        novaTransacao.tipoTransacao === EnumTransacao.PAGAMENTO_BOLETO
-      ) {
-        saldo -= novaTransacao.valor;
-      } else {
-        alert('Transação inválida.');
-      }
+    if (novaTransacao.tipoTransacao === EnumTransacao.DEPOSITO) {
+      depositar(novaTransacao.valor);
+    } else if (
+      novaTransacao.tipoTransacao === EnumTransacao.TRANSFERENCIA ||
+      novaTransacao.tipoTransacao === EnumTransacao.PAGAMENTO_BOLETO
+    ) {
+      debitar(novaTransacao.valor);
     } else {
-      alert('Valor da transação precisa ser maior que zero.');
+      throw new Error('Transação inválida.');
     }
     console.log(novaTransacao);
   },
