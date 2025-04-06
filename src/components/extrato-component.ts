@@ -21,9 +21,7 @@ function renderizarExtrato(): void {
         <div class='transacao-item'>
             <div class='transacao-info'>
                 <span class='tipo'>${transacao.tipoTransacao}</span>
-                <strong class='valor'>-${formatarMoeda(
-                  transacao.valor
-                )}</strong>
+                <strong class='valor'>${formatarMoeda(transacao.valor)}</strong>
             </div>
             <time class='data'>${formatarData(
               transacao.data,
@@ -47,3 +45,11 @@ function renderizarExtrato(): void {
 
   elementoRegistroTransacoesExtrato.innerHTML = htmlRegistroTransacoes;
 }
+
+const ExtratoComponent = {
+  atualizar(): void {
+    renderizarExtrato();
+  },
+};
+
+export default ExtratoComponent;
