@@ -1,7 +1,10 @@
 import { EnumTransacao } from '../enums/EnumTransacao.js';
+import { ehMaiorQueZero } from '../utils/ehMaiorQueZero.js';
+import { ehMenorQueSaldo } from '../utils/ehMenorQueSaldo.js';
+import { TypeGrupoTransacoes } from './TypeGrupoTransacoes.js';
 import { TypeTransacao } from './TypeTransacao.js';
 
-let saldo: number = 20000;
+let saldo: number = JSON.parse(localStorage.getItem('saldo')) || 20000;
 const transacoes: TypeTransacao[] =
   JSON.parse(
     localStorage.getItem('transacoes'),
@@ -13,27 +16,17 @@ const transacoes: TypeTransacao[] =
     }
   ) || [];
 
-function ehMaiorQueZero(valor: number): void {
-  if (valor <= 0) {
-    throw new Error('Valor precisa ser maior que zero.');
-  }
-}
-
-function ehMenorQueSaldo(valor: number): void {
-  if (valor > saldo) {
-    throw new Error('Saldo insuficiente.');
-  }
-}
-
 function debitar(valor: number): void {
   ehMaiorQueZero(valor);
   ehMenorQueSaldo(valor);
   saldo -= valor;
+  localStorage.setItem('saldo', saldo.toString());
 }
 
 function depositar(valor: number): void {
   ehMaiorQueZero(valor);
   saldo += valor;
+  localStorage.setItem('saldo', saldo.toString());
 }
 
 const Conta = {
@@ -43,6 +36,35 @@ const Conta = {
 
   getDataDeAcesso(): Date {
     return new Date();
+  },
+
+  getGrupoTransacoes(): TypeGrupoTransacoes[] {
+    const grupoDeTransacoes: TypeGrupoTransacoes[] = [];
+    const listaTransacoes: TypeTransacao[] = structuredClone(transacoes);
+    const transacoesOrdenadas: TypeTransacao[] = listaTransacoes.sort(
+      (t1, t2) => t2.data.getTime() - t1.data.getTime()
+    );
+    let labelAtualGrupoTransacao: string = '';
+
+    for (let transacao of transacoesOrdenadas) {
+      let labelGrupoTransacao: string = transacao.data.toLocaleDateString(
+        'pt-br',
+        {
+          month: 'long',
+          year: 'numeric',
+        }
+      );
+      if (labelAtualGrupoTransacao !== labelGrupoTransacao) {
+        labelAtualGrupoTransacao = labelGrupoTransacao;
+        grupoDeTransacoes.push({
+          label: labelGrupoTransacao,
+          transacoes: [],
+        });
+      }
+      grupoDeTransacoes.at(-1).transacoes.push(transacao);
+    }
+
+    return grupoDeTransacoes;
   },
 
   registrarTransacao(novaTransacao: TypeTransacao): void {
@@ -57,7 +79,8 @@ const Conta = {
       throw new Error('Transação inválida.');
     }
     transacoes.push(novaTransacao);
-    localStorage.setItem('transacoes', JSON.stringify(novaTransacao));
+    console.log(this.getGrupoTransacoes());
+    localStorage.setItem('transacoes', JSON.stringify(transacoes));
   },
 };
 

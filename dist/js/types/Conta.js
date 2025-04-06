@@ -1,29 +1,23 @@
 import { EnumTransacao } from '../enums/EnumTransacao.js';
-let saldo = 20000;
+import { ehMaiorQueZero } from '../utils/ehMaiorQueZero.js';
+import { ehMenorQueSaldo } from '../utils/ehMenorQueSaldo.js';
+let saldo = JSON.parse(localStorage.getItem('saldo')) || 20000;
 const transacoes = JSON.parse(localStorage.getItem('transacoes'), (key, value) => {
     if (key === 'data') {
         return new Date(value);
     }
     return value;
 }) || [];
-function ehMaiorQueZero(valor) {
-    if (valor <= 0) {
-        throw new Error('Valor precisa ser maior que zero.');
-    }
-}
-function ehMenorQueSaldo(valor) {
-    if (valor > saldo) {
-        throw new Error('Saldo insuficiente.');
-    }
-}
 function debitar(valor) {
     ehMaiorQueZero(valor);
     ehMenorQueSaldo(valor);
     saldo -= valor;
+    localStorage.setItem('saldo', saldo.toString());
 }
 function depositar(valor) {
     ehMaiorQueZero(valor);
     saldo += valor;
+    localStorage.setItem('saldo', saldo.toString());
 }
 const Conta = {
     getSaldo() {
@@ -31,6 +25,27 @@ const Conta = {
     },
     getDataDeAcesso() {
         return new Date();
+    },
+    getGrupoTransacoes() {
+        const grupoDeTransacoes = [];
+        const listaTransacoes = structuredClone(transacoes);
+        const transacoesOrdenadas = listaTransacoes.sort((t1, t2) => t2.data.getTime() - t1.data.getTime());
+        let labelAtualGrupoTransacao = '';
+        for (let transacao of transacoesOrdenadas) {
+            let labelGrupoTransacao = transacao.data.toLocaleDateString('pt-br', {
+                month: 'long',
+                year: 'numeric',
+            });
+            if (labelAtualGrupoTransacao !== labelGrupoTransacao) {
+                labelAtualGrupoTransacao = labelGrupoTransacao;
+                grupoDeTransacoes.push({
+                    label: labelGrupoTransacao,
+                    transacoes: [],
+                });
+            }
+            grupoDeTransacoes.at(-1).transacoes.push(transacao);
+        }
+        return grupoDeTransacoes;
     },
     registrarTransacao(novaTransacao) {
         if (novaTransacao.tipoTransacao === EnumTransacao.DEPOSITO) {
@@ -44,7 +59,8 @@ const Conta = {
             throw new Error('Transação inválida.');
         }
         transacoes.push(novaTransacao);
-        localStorage.setItem('transacoes', JSON.stringify(novaTransacao));
+        console.log(this.getGrupoTransacoes());
+        localStorage.setItem('transacoes', JSON.stringify(transacoes));
     },
 };
 export default Conta;
