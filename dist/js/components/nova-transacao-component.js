@@ -1,5 +1,5 @@
-import { EnumTransacao } from '../enums/EnumTransacao.js';
-import { atualizarSaldo, getSaldo } from './saldo-component.js';
+import Conta from '../types/Conta.js';
+import SaldoComponent from './saldo-component.js';
 const elementoFormulario = document.querySelector('.block-nova-transacao form');
 elementoFormulario.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -13,28 +13,12 @@ elementoFormulario.addEventListener('submit', (event) => {
     let tipoTransacao = inputTipoTransacao.value;
     let valor = inputValor.valueAsNumber;
     let data = new Date(inputData.value);
-    let saldo = getSaldo();
-    if (valor > 0) {
-        if (tipoTransacao === EnumTransacao.DEPOSITO) {
-            saldo += valor;
-        }
-        else if (tipoTransacao === EnumTransacao.TRANSFERENCIA ||
-            tipoTransacao === EnumTransacao.PAGAMENTO_BOLETO) {
-            saldo -= valor;
-        }
-        else {
-            alert('Transação inválida.');
-        }
-    }
-    else {
-        alert('Valor da transação precisa ser maior que zero.');
-    }
-    atualizarSaldo(saldo);
     const novaTransacao = {
         tipoTransacao: tipoTransacao,
         valor: valor,
         data: data,
     };
-    console.log(novaTransacao);
+    Conta.registrarTransacao(novaTransacao);
+    SaldoComponent.atualizar();
     elementoFormulario.reset();
 });

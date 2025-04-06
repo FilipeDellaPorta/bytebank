@@ -1,6 +1,5 @@
+import Conta from '../types/Conta.js';
 import { formatarData, formatarMoeda } from '../utils/formatters.js';
-
-let saldo: number = 20000;
 
 const elementoSaldo = document.querySelector(
   '.saldo-valor .valor'
@@ -10,20 +9,21 @@ const elementoDataAcesso = document.querySelector(
 ) as HTMLElement;
 
 if (elementoDataAcesso !== null) {
-  const dataAcesso: Date = new Date();
-  elementoDataAcesso.textContent = formatarData(dataAcesso);
+  elementoDataAcesso.textContent = formatarData(Conta.getDataDeAcesso());
 }
 
-export function getSaldo(): number {
-  return saldo;
-}
+renderizarSaldo();
 
-atualizarSaldo(saldo);
-
-export function atualizarSaldo(novoSaldo: number): void {
-  saldo = novoSaldo;
+function renderizarSaldo(): void {
   if (elementoSaldo !== null) {
-    elementoSaldo.textContent = formatarMoeda(saldo);
+    elementoSaldo.textContent = formatarMoeda(Conta.getSaldo());
   }
 }
 
+const SaldoComponent = {
+  atualizar() {
+    renderizarSaldo();
+  },
+};
+
+export default SaldoComponent;
