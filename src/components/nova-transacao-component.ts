@@ -1,3 +1,7 @@
+import { EnumTransacao } from '../enums/EnumTransacao.js';
+import { TypeTransacao } from '../types/TypeTransacao.js';
+import { atualizarSaldo, getSaldo } from './saldo-component.js';
+
 const elementoFormulario = document.querySelector(
   '.block-nova-transacao form'
 ) as HTMLFormElement;
@@ -22,6 +26,7 @@ elementoFormulario.addEventListener('submit', (event) => {
   let tipoTransacao: EnumTransacao = inputTipoTransacao.value as EnumTransacao;
   let valor: number = inputValor.valueAsNumber;
   let data: Date = new Date(inputData.value);
+  let saldo: number = getSaldo();
 
   if (valor > 0) {
     if (tipoTransacao === EnumTransacao.DEPOSITO) {
@@ -38,7 +43,7 @@ elementoFormulario.addEventListener('submit', (event) => {
     alert('Valor da transação precisa ser maior que zero.');
   }
 
-  elementoSaldo.textContent = formatarMoeda(saldo);
+  atualizarSaldo(saldo);
 
   const novaTransacao: TypeTransacao = {
     tipoTransacao: tipoTransacao,
