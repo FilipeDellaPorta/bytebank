@@ -1,10 +1,6 @@
 import Conta from '../types/Conta.js';
-import { formatarData, formatarMoeda } from '../utils/formatters.js';
+import { formatarMoeda } from '../utils/formatters.js';
 const elementoSaldo = document.querySelector('.saldo-valor .valor');
-const elementoDataAcesso = document.querySelector('.block-saldo time');
-if (elementoDataAcesso !== null) {
-    elementoDataAcesso.textContent = formatarData(Conta.getDataDeAcesso());
-}
 renderizarSaldo();
 function renderizarSaldo() {
     if (elementoSaldo !== null) {
@@ -12,7 +8,7 @@ function renderizarSaldo() {
     }
 }
 const SaldoComponent = {
-    atualizar() {
+    atualizar: function () {
         renderizarSaldo();
     },
 };
