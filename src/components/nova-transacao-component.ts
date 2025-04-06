@@ -29,7 +29,7 @@ elementoFormulario.addEventListener('submit', (event) => {
     let tipoTransacao: EnumTransacao =
       inputTipoTransacao.value as EnumTransacao;
     let valor: number = inputValor.valueAsNumber;
-    let data: Date = new Date(inputData.value + '00:00:00');
+    let data: Date = new Date(inputData.value + ' 00:00:00');
 
     const novaTransacao: TypeTransacao = {
       tipoTransacao: tipoTransacao,
