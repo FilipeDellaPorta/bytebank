@@ -19,16 +19,16 @@ elementoFormulario.addEventListener('submit', (event) => {
     '#data'
   ) as HTMLInputElement;
 
-  let tipoTransacao: TipoTransacao = inputTipoTransacao.value as TipoTransacao;
+  let tipoTransacao: EnumTransacao = inputTipoTransacao.value as EnumTransacao;
   let valor: number = inputValor.valueAsNumber;
   let data: Date = new Date(inputData.value);
 
   if (valor > 0) {
-    if (tipoTransacao === TipoTransacao.DEPOSITO) {
+    if (tipoTransacao === EnumTransacao.DEPOSITO) {
       saldo += valor;
     } else if (
-      tipoTransacao === TipoTransacao.TRANSFERENCIA ||
-      tipoTransacao === TipoTransacao.PAGAMENTO_BOLETO
+      tipoTransacao === EnumTransacao.TRANSFERENCIA ||
+      tipoTransacao === EnumTransacao.PAGAMENTO_BOLETO
     ) {
       saldo -= valor;
     } else {
@@ -40,7 +40,7 @@ elementoFormulario.addEventListener('submit', (event) => {
 
   elementoSaldo.textContent = formatarMoeda(saldo);
 
-  const novaTransacao: Transacao = {
+  const novaTransacao: TypeTransacao = {
     tipoTransacao: tipoTransacao,
     valor: valor,
     data: data,

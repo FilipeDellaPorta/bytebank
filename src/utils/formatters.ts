@@ -7,16 +7,16 @@ function formatarMoeda(valor: number): string {
 
 function formatarData(
   data: Date,
-  formatoData: TipoData = TipoData.ACESSO
+  formatoData: EnumData = EnumData.ACESSO
 ): string {
-  if (formatoData === TipoData.ACESSO) {
+  if (formatoData === EnumData.ACESSO) {
     return data.toLocaleDateString('pt-br', {
       weekday: 'long',
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-  } else if (formatoData === TipoData.EXTRATO) {
+  } else if (formatoData === EnumData.EXTRATO) {
     return data.toLocaleDateString('pt-br', {
       day: '2-digit',
       month: '2-digit',
