@@ -34,18 +34,12 @@ O **ByteBank** é uma aplicação desenvolvida em **TypeScript** (que é transpi
     git clone https://github.com/seu-usuario/bytebank.git
     ```
 
-2. Instale as dependências:
+2. Compile o código TypeScript para JavaScript:
     ```bash
-    cd bytebank
-    npm install
+    tsc -w
     ```
 
-3. Compile o código TypeScript para JavaScript:
-    ```bash
-    tsc
-    ```
-
-4. Abra o arquivo `index.html` em seu navegador ou execute a aplicação no servidor de sua preferência.
+3. Abra o arquivo `index.html` em seu navegador ou execute a aplicação no servidor de sua preferência.
 
 ---
 
